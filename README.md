@@ -34,13 +34,11 @@ To deploy OKE using this Module with minimal effort use this:
 module "oci-oke" {
   source                 = "github.com/oracle-devrel/terraform-oci-arch-oke"
   compartment_ocid       = ${var.compartment_ocid}
-  availability_domain    = ${availablity_domain_name}
   vcn                    = ${var.vcn_id}
   api_endpoint_subnet_id = ${var.api_endpoint_subnet_id}
   lb_subnet_id           = ${var.lb_subnet_id}
   node_subnet_id         = ${var.node_subnet_id}
   ssh_public_key         = ${var.ssh_public_key}
-  availability_domain    = ${var.availablity_domain_name}
 }
 
 ```
@@ -59,6 +57,7 @@ lb_subnet_id | If use_existing_vcn is set to TRUE then you can pass LoadBalancer
 lb_subnet_cidr | If use_existing_vcn is set to FALSE then you can define LoadBalancer CIDR block and then it will used to create service_lb_subnet_ids within the module.
 api_endpoint_subnet_id | If use_existing_vcn is set to TRUE then you can pass API EndPoint Subnet OCID and module will use it to define endpoint_config.
 api_endpoint_subnet_cidr | If use_existing_vcn is set to FALSE then you can define API EndPoint CIDR block and then it will used to create endpoint_config within the module.
+api_endpoint_nsg_ids | If use_existing_vcn is set to TRUE then you can pass API EndPoint Network Security Groups OCID and module will use it to define endpoint_config.
 oke_cluster_name | The name of the OKE Cluster.
 vcn_native | if you want to use modern VCN-native mode for OKE then you need to set the value to TRUE.
 is_api_endpoint_subnet_public | If vcn_native is set to TRUE then you can choose if API EndPoint will be in the public or private subnet.

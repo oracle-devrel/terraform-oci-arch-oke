@@ -1,4 +1,4 @@
-## Copyright (c) 2021 Oracle and/or its affiliates.
+## Copyright (c) 2022 Oracle and/or its affiliates.
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 resource "tls_private_key" "public_private_key_pair" {
@@ -16,6 +16,7 @@ resource "oci_containerengine_cluster" "oci_oke_cluster" {
     content {
       is_public_ip_enabled = var.is_api_endpoint_subnet_public
       subnet_id            = var.use_existing_vcn ? var.api_endpoint_subnet_id : oci_core_subnet.oke_api_endpoint_subnet[0].id
+      nsg_ids              = var.use_existing_vcn ? var.api_endpoint_nsg_ids : []
     }
   }
 
@@ -60,9 +61,13 @@ resource "oci_containerengine_node_pool" "oci_oke_node_pool" {
   ssh_public_key = var.ssh_public_key != "" ? var.ssh_public_key : tls_private_key.public_private_key_pair.public_key_openssh
 
   node_config_details {
-    placement_configs {
-      availability_domain = var.availability_domain == "" ? data.oci_identity_availability_domains.ADs.availability_domains[0]["name"] : var.availability_domain
-      subnet_id           = var.use_existing_vcn ? var.nodepool_subnet_id : oci_core_subnet.oke_nodepool_subnet[0].id
+    dynamic "placement_configs" {
+      iterator = pc_iter
+      for_each = data.oci_identity_availability_domains.ADs.availability_domains
+      content {
+        availability_domain = pc_iter.value.name
+        subnet_id           = var.use_existing_vcn ? var.nodepool_subnet_id : oci_core_subnet.oke_nodepool_subnet[0].id
+      }
     }
     size = var.node_count
     defined_tags = var.defined_tags
