@@ -1,9 +1,5 @@
-## Copyright (c) 2021 Oracle and/or its affiliates.
+## Copyright (c) 2022 Oracle and/or its affiliates.
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
-
-variable "availability_domain" {
-  default = ""
-}
 
 variable "compartment_ocid" {
   default = ""
@@ -47,6 +43,10 @@ variable "api_endpoint_subnet_id" {
 
 variable "api_endpoint_subnet_cidr" {
   default = "10.0.3.0/24"
+}
+
+variable "api_endpoint_nsg_ids" {
+  default = ""
 }
 
 variable "oke_cluster_name" {
