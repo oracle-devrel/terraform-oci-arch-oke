@@ -63,9 +63,9 @@ resource "oci_containerengine_node_pool" "oci_oke_node_pool" {
   node_config_details {
     dynamic "placement_configs" {
       iterator = pc_iter
-      for_each = data.oci_identity_availability_domains.ADs.availability_domains
+      for_each = local.availability_domains #data.oci_identity_availability_domains.ADs.availability_domains
       content {
-        availability_domain = pc_iter.value.name
+        availability_domain = pc_iter.value.name        
         subnet_id           = var.use_existing_vcn ? var.nodepool_subnet_id : oci_core_subnet.oke_nodepool_subnet[0].id
       }
     }

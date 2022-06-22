@@ -9,6 +9,10 @@ variable "tenancy_ocid" {
   default = ""
 }
 
+variable "availability_domain" {
+  default = ""
+}
+
 variable "use_existing_vcn" {
   default = true
 }
@@ -46,7 +50,7 @@ variable "api_endpoint_subnet_cidr" {
 }
 
 variable "api_endpoint_nsg_ids" {
-  default = ""
+  default = []
 }
 
 variable "oke_cluster_name" {
@@ -70,7 +74,7 @@ variable "is_nodepool_subnet_public" {
 }
 
 variable "k8s_version" {
-  default = "v1.20.11"
+  default = "v1.23.4"
 }
 
 variable "pool_name" {
@@ -143,4 +147,8 @@ variable "ssh_public_key" {
 
 variable "defined_tags" {
   default = {}
+}
+
+locals {
+  availability_domains = var.availability_domain == "" ? data.oci_identity_availability_domains.ADs.availability_domains : data.oci_identity_availability_domains.AD.availability_domains
 }
