@@ -20,6 +20,13 @@ resource "oci_containerengine_cluster" "oci_oke_cluster" {
     }
   }
 
+  dynamic "cluster_pod_network_options" {
+      for_each = var.oci_vcn_ip_native == true ? [1] : []
+      content {
+          cni_type = "OCI_VCN_IP_NATIVE"
+      }
+  }
+
   options {
     service_lb_subnet_ids = [var.use_existing_vcn ? var.lb_subnet_id : oci_core_subnet.oke_lb_subnet[0].id]
 
@@ -32,9 +39,12 @@ resource "oci_containerengine_cluster" "oci_oke_cluster" {
       is_pod_security_policy_enabled = var.cluster_options_admission_controller_options_is_pod_security_policy_enabled
     }
 
-    kubernetes_network_config {
-      pods_cidr     = var.pods_cidr
-      services_cidr = var.services_cidr
+    dynamic "kubernetes_network_config" {
+      for_each = var.oci_vcn_ip_native == true ? [] : [1]
+        content {
+            pods_cidr     = var.pods_cidr
+            services_cidr = var.services_cidr
+        }
     }
   }
   defined_tags = var.defined_tags
@@ -71,6 +81,16 @@ resource "oci_containerengine_node_pool" "oci_oke_node_pool" {
     }
     size = var.node_count
     defined_tags = var.defined_tags
+
+    dynamic "node_pool_pod_network_option_details" {
+        for_each = var.oci_vcn_ip_native == true ? [1] : []
+        content {
+          cni_type          = "OCI_VCN_IP_NATIVE"
+          max_pods_per_node = var.max_pods_per_node
+          pod_nsg_ids       = var.use_existing_nsg ? var.pods_nsg_ids : []
+          pod_subnet_ids    = var.use_existing_vcn ? [var.pods_subnet_id] : []
+        }
+    }
   }
 
   dynamic "node_shape_config" {

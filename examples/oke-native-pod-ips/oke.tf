@@ -20,6 +20,9 @@ module "oci-oke" {
   is_lb_subnet_public           = false
   lb_subnet_id                  = oci_core_subnet.my_lb_subnet.id
   is_nodepool_subnet_public     = false
-  nodepool_subnet_id            = oci_core_subnet.my_nodepool_subnet.id
+  nodepool_subnet_id            = oci_core_subnet.my_pods_nodepool_subnet.id
+  oci_vcn_ip_native             = true 
+  max_pods_per_node             = 10
+  pods_subnet_id                = oci_core_subnet.my_pods_nodepool_subnet.id
 }
 

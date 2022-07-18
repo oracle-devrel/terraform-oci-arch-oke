@@ -29,7 +29,7 @@ variable "oke_cluster_name" {
 }
 
 variable "k8s_version" {
-  default = "v1.20.11"
+  default = "v1.23.4"
 }
 
 variable "pool_name" {

@@ -17,6 +17,10 @@ variable "use_existing_vcn" {
   default = true
 }
 
+variable "use_existing_nsg" {
+  default = true
+}
+
 variable "vcn_cidr" {
   default = "10.0.0.0/16"
 }
@@ -53,6 +57,14 @@ variable "api_endpoint_nsg_ids" {
   default = []
 }
 
+variable "pods_subnet_id" {
+  default = ""
+}
+
+variable "pods_nsg_ids" {
+  default = []
+}
+
 variable "oke_cluster_name" {
   default = "OKE_Cluster"
 }
@@ -82,7 +94,7 @@ variable "pool_name" {
 }
 
 variable "node_shape" {
-  default = "VM.Standard.E3.Flex"
+  default = "VM.Standard.E4.Flex"
 }
 
 variable "node_image_id" {
@@ -101,12 +113,24 @@ variable "node_memory" {
   default = 4
 }
 
+variable "oci_vcn_ip_native" {
+  default = false
+}
+
+variable "max_pods_per_node" {
+  default = 10
+}
+
 variable "pods_cidr" {
   default = "10.1.0.0/16"
 }
 
 variable "services_cidr" {
   default = "10.2.0.0/16"
+}
+
+variable "pods_subnet_cidr" {
+  default = "10.0.4.0/24"
 }
 
 variable "node_linux_version" {
