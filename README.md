@@ -27,6 +27,7 @@ Each Module has the following folder structure:
   - [OKE with public LB and public APIEndpoint, but NodePool in private subnets) + custom network injected into module](examples/oke-public-lb-and-api-endpoint-private-workers-use-existing-network): This is an example of how to use the oci-oke module to deploy Container Engine for Kubernetes (OKE) with VCN-native support, public LB (Internet-facing), public API Endpoint (Internet-facing), but NodePool in private subnets where custom network cloud infrastrucutre elements will be injected into the module.
    - [Fully Public OKE (LB, APIEndpoint and NodePool in public subnets) + network deployed by module](examples/oke-fully-public-no-existing-network): This is an example of how to use the oci-oke module to deploy Container Engine for Kubernetes (OKE) with VCN-native support and all subnets are public and network cloud infrastrucutre elements will be deployed within the body of the module.
   - [Fully Public OKE (LB, APIEndpoint and NodePool in public subnets) + custom network injected into module](examples/oke-fully-public-use-existing-network): This is an example of how to use the oci-oke module to deploy Container Engine for Kubernetes (OKE) with VCN-native support and all subnets are public and network cloud infrastrucutre elements will be injected into the module.
+  - [Private OKE with Native POD networking](examples/oke-native-pods-ips): This is an example of how to use the oci-oke module to deploy Container Engine for Kubernetes (OKE) with VCN-native support and Native POD networking.
 
 To deploy OKE using this Module with minimal effort use this:
 
@@ -49,6 +50,7 @@ compartment_ocid | Compartment's OCID where OKE will be created
 ssh_authorized_keys | Public SSH key to be included in the ~/.ssh/authorized_keys file for the default user on the instance
 ssh_private_key | The private key to access instance
 use_existing_vcn | If you want to inject already exisitng VCN then you need to set the value to TRUE.
+use_existing_nsg | If you want to inject already exisitng NSG then you need to set the value to TRUE.
 vcn_cidr | If use_existing_vcn is set to FALSE then you can define VCN CIDR block and then it will used to create VCN within the module.
 vcn_id | If use_existing_vcn is set to TRUE then you can pass VCN OCID and module will use it to create OKE Cluster.
 node_subnet_id | If use_existing_vcn is set to TRUE then you can pass NodePool Subnet OCID and module will use it to create OKE NodePool.
@@ -58,6 +60,9 @@ lb_subnet_cidr | If use_existing_vcn is set to FALSE then you can define LoadBal
 api_endpoint_subnet_id | If use_existing_vcn is set to TRUE then you can pass API EndPoint Subnet OCID and module will use it to define endpoint_config.
 api_endpoint_subnet_cidr | If use_existing_vcn is set to FALSE then you can define API EndPoint CIDR block and then it will used to create endpoint_config within the module.
 api_endpoint_nsg_ids | If use_existing_vcn is set to TRUE then you can pass API EndPoint Network Security Groups OCID and module will use it to define endpoint_config.
+oci_vcn_ip_native | If you want to enable POD native networking (PODs associated with VCN/Subnet), then you need to turn the value to TRUE.
+pod_subnet_id | If use_existing_vcn is set to TRUE and oci_vcn_ip_native is set to TRUE then you can pass POD Subnet OCID and module will associate it with each and every POD in OKE.
+max_pods_per_node | If oci_vcn_ip_native is set to TRUE then you can define maximum value of PODs per OKE node.
 oke_cluster_name | The name of the OKE Cluster.
 vcn_native | if you want to use modern VCN-native mode for OKE then you need to set the value to TRUE.
 is_api_endpoint_subnet_public | If vcn_native is set to TRUE then you can choose if API EndPoint will be in the public or private subnet.

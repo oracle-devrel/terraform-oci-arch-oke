@@ -277,4 +277,3 @@ resource "oci_core_subnet" "oke_nodepool_subnet" {
 }
 
 
-
