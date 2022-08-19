@@ -57,13 +57,15 @@ resource "oci_containerengine_node_pool" "oci_oke_node_pool" {
   name               = var.pool_name
   node_shape         = var.node_shape
 
+
   initial_node_labels {
     key   = var.node_pool_initial_node_labels_key
     value = var.node_pool_initial_node_labels_value
   }
 
   node_source_details {
-    image_id                = var.node_image_id == "" ? element([for source in data.oci_containerengine_node_pool_option.oci_oke_node_pool_option.sources : source.image_id if length(regexall("Oracle-Linux-${var.node_linux_version}-20[0-9]*.*", source.source_name)) > 0], 0) : var.node_image_id
+    #image_id                = var.node_image_id == "" ? element([for source in data.oci_containerengine_node_pool_option.oci_oke_node_pool_option.sources : source.image_id if length(regexall("Oracle-Linux-${var.node_linux_version}-20[0-9]*.*", source.source_name)) > 0], 0) : var.node_image_id
+    image_id                = var.node_image_id == "" ? element([for source in data.oci_containerengine_node_pool_option.oci_oke_node_pool_option.sources : source.image_id if length(regexall(local.node_image_regex, source.source_name)) > 0], 0) : var.node_image_id
     source_type             = "IMAGE"
     boot_volume_size_in_gbs = var.node_pool_boot_volume_size_in_gbs
   }
@@ -100,6 +102,16 @@ resource "oci_containerengine_node_pool" "oci_oke_node_pool" {
       memory_in_gbs = var.node_memory
     }
   }
+
+  dynamic "node_eviction_node_pool_settings" {
+    for_each = var.node_eviction_node_pool_settings == true ? [1] : []
+    content {
+    
+        eviction_grace_duration = var.eviction_grace_duration
+        is_force_delete_after_grace_duration = var.is_force_delete_after_grace_duration
+    }
+  }
+
   defined_tags = var.defined_tags
 }
 

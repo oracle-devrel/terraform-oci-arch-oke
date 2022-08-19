@@ -29,7 +29,7 @@ variable "oke_cluster_name" {
 }
 
 variable "k8s_version" {
-  default = "v1.23.4"
+  default = "v1.24.1"
 }
 
 variable "pool_name" {
@@ -37,7 +37,7 @@ variable "pool_name" {
 }
 
 variable "node_shape" {
-  default = "VM.Standard.E3.Flex"
+  default = "VM.Standard.A1.Flex"
 }
 
 variable "node_ocpus" {
@@ -52,3 +52,6 @@ variable "node_count" {
   default = 4
 }
 
+variable "node_linux_version" {
+  default = "8.6"
+}
