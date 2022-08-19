@@ -81,6 +81,9 @@ cluster_options_add_ons_is_kubernetes_dashboard_enabled | If you want to set clu
 cluster_options_add_ons_is_tiller_enabled | If you want to use Tiller then you need to set the value to TRUE.
 node_pool_initial_node_labels_key | You can pass here node_pool_initial_node_labels_key.
 node_pool_initial_node_labels_value | You can pass here node_pool_initial_node_labels_value.
+node_eviction_node_pool_settings | If you want to setup Node Eviction Details configuration then set the value to TRUE (by default the value is equal to FALSE).
+eviction_grace_duration | If node_eviction_node_pool_settings is set to TRUE then you can setup duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
+is_force_delete_after_grace_duration | If node_eviction_node_pool_settings is set to TRUE then you can setup underlying compute instance to be deleted event if you cannot evict all the pods in grace period.
 ssh_public_key | If you want to use your own SSH public key instead of generated onne by the module.
 
 ## Contributing

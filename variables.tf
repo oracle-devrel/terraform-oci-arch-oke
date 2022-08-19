@@ -169,10 +169,18 @@ variable "ssh_public_key" {
   default = ""
 }
 
-variable "defined_tags" {
-  default = {}
+variable "node_eviction_node_pool_settings" {
+  default = false
 }
 
-locals {
-  availability_domains = var.availability_domain == "" ? data.oci_identity_availability_domains.ADs.availability_domains : data.oci_identity_availability_domains.AD.availability_domains
+variable "eviction_grace_duration" {
+  default = "PT60M"
+}
+
+variable "is_force_delete_after_grace_duration" {
+  default = true
+}
+
+variable "defined_tags" {
+  default = {}
 }
