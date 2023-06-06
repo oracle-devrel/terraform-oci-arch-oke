@@ -79,6 +79,7 @@ pods_cidr | K8S PODs CIDR
 services_cidr | K8S Services CIDR
 cluster_options_add_ons_is_kubernetes_dashboard_enabled | If you want to set cluster_options_add_ons_is_kubernetes_dashboard_enabled to TRUE.
 cluster_options_add_ons_is_tiller_enabled | If you want to use Tiller then you need to set the value to TRUE.
+cluster_type | Default is **enhanced** may also be set to **basic**
 node_pool_initial_node_labels_key | You can pass here node_pool_initial_node_labels_key.
 node_pool_initial_node_labels_value | You can pass here node_pool_initial_node_labels_value.
 node_eviction_node_pool_settings | If you want to setup Node Eviction Details configuration then set the value to TRUE (by default the value is equal to FALSE).
