@@ -86,7 +86,7 @@ variable "is_nodepool_subnet_public" {
 }
 
 variable "k8s_version" {
-  default = "v1.23.4"
+  default = "v1.26.2"
 }
 
 variable "pool_name" {
@@ -97,7 +97,7 @@ variable "node_shape" {
   default = "VM.Standard.E4.Flex"
 }
 
-variable "node_image_id" {
+variable "node_pool_image_id" {
   default = ""
 }
 
@@ -139,6 +139,20 @@ variable "node_linux_version" {
 
 variable "node_count" {
   default = 3
+}
+
+variable "node_pool_image_type" {
+  default = "oke"
+}
+
+variable "cluster_type" {
+  default     = "enhanced"
+  description = "The cluster type. See <a href=https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengworkingwithenhancedclusters.htm>Working with Enhanced Clusters and Basic Clusters</a> for more information."
+  type        = string
+  validation {
+    condition     = contains(["basic", "enhanced"], lower(var.cluster_type))
+    error_message = "Accepted values are 'basic' or 'enhanced'."
+  }
 }
 
 variable "cluster_options_add_ons_is_kubernetes_dashboard_enabled" {
